@@ -8,7 +8,7 @@ Welcome to the Aurora Forecasting Application, a Python program that predicts th
 ### Version 0.2
 🛠️ New Features
 - Added location input after the initial Coventry check
-- Added error codes for easier debugging ([See here](#error-codes))
+- Added error codes for easier debugging ([See here](#-error-codes))
 - Added multiple new try statements to catch errors and handle them
 
 🐛 Bug Fixes
