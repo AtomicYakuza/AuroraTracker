@@ -90,7 +90,7 @@ python3 scripts/main.py
 |301|Error during the editing of data|Unexpected logic issue|
 |302|Error during the sorting of data|Unexpected logic issue|
 
- Submit and track issues [here](https://github.com/AtomicYakuza/AuroraTracker/issues), or contribute directly by fixing issues and submitting a pull request. See [Contributing](#🤝-contributing) for more info.
+ Submit and track issues [here](https://github.com/AtomicYakuza/AuroraTracker/issues), or contribute directly by fixing issues and submitting a pull request. See [Contributing](#-contributing) for more info.
 
 ## 🛡️ License
 
