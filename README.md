@@ -1,5 +1,3 @@
-
-
 # Aurora Forecasting Application (AuroraTracker)
 
 Welcome to the Aurora Forecasting Application, a Python program that predicts the visibility of auroras (Northern Lights) in Coventry using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
@@ -66,7 +64,7 @@ To run this program, you’ll need:
 ├── LICENSE                 # License details (MIT)
 ├── 📁 Scripts/
 │   ├── AuroraClass.py      # Contains the Aurora class for data fetching, cleaning, and analysis
-│   ├── locatorClass.py     # Contains the Locator class for finding the users: latitude, longitude & city
+│   ├── locatorClass.py     # Contains the Locator class for finding the user's: latitude, longitude & city
 │   ├── main.py             # Main program file (Run program from here)
 ├── 📁 Data/
     ├── historicData.csv    # Contains the stored data requested by the program
@@ -119,8 +117,8 @@ python3 scripts/main.py
 |402|locatorClass.py|Error during json parse|Submit issue|
 |501|fileHandlerClass.py|Error during file creation|Ensure no other programs are interfering in the working directory or files|
 |502|fileHandlerClass.py|Error during folder creation|Ensure no other programs are interfering in the working directory or files|
-|503|fuleHandlerClass.py|Error during loading of data before saving|Ensure no other programs are interfering in the working directory or files|
-|504|fuleHandlerClass.py|Error during loading of data before table printing|Ensure no other programs are interfering in the working directory or files|
+|503|fileHandlerClass.py|Error during loading of data before saving|Ensure no other programs are interfering in the working directory or files|
+|504|fileHandlerClass.py|Error during loading of data before table printing|Ensure no other programs are interfering in the working directory or files|
 
  Submit and track issues [here](https://github.com/AtomicYakuza/AuroraTracker/issues), or contribute directly by fixing issues and submitting a pull request. See [Contributing](#-contributing) for more info.
 
