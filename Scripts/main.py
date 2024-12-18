@@ -1,35 +1,43 @@
 #Aurora Prediction main.py
-#--Last Version Changed: v0.3
+#--Last Version Changed: v0.4
 #Created by AtomicYakuza on 10/12/2024
 
 #from AuroraClass.py (file) import tthe Aurora Class
-from auroraClass import Aurora #import custom class from file (For file readability)
-from locatorClass import Locator #import custom class from file (For file readability)
+from auroraClass import Aurora #import custom classes from file (For file readability)
+from locatorClass import Locator 
+from fileHandlerClass import FileHander
 
 MainAurora = Aurora() #instantiate the class as a global variable
-MainLocator = Locator() #instantiate the class as global variable 
-#both these dont have to global variables, but program is small and they would both be in main() what runs for the entirety of the program anyway
+MainLocator = Locator() 
+MainFileHandler = FileHander()
+#all of these dont have to global variables, but program is small and they would both be in main() what runs for the entirety of the program anyway
+
+
 def main():
     menuPrint("Aurora Forecasting Application")  # Print a nice title
     latitude, longitude, city = MainLocator.getLocationFromAPI() #get current location from API, longitude is not used but returned just incase for future
     responseData = MainAurora.request()  # Requesting data from NOAA
     trimmedData, dates, times = MainAurora.cleanData(data=responseData)  # Trim the data and prepare it from plain text to lists
+    MainFileHandler.saveFile(trimmedData,dates,times) #Call the fileHander to save the data to file
     daysAroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude))  # Validate if aurora is visible in Coventry
     menuPrint("Aurora Prediction")  # Print a nice title again
     printAuroraPrediction(daysAroraCouldHappen, dates, city) # Display Aurora prediction
-
+    
     #input loop until done
     menuLoop = True #loop variable for while loop
+    
     print("Would you like to conduct a forecast for a different area?")
+    print("\n")
     printKPIMenu() #print the table 
     excepttedKPIMenuValues = ["1","2","3","4","5","6","7","8","9"] #list of values for the if statement to accept a new KP analysis
-    menuCount = 1 #used for changing the variable
-    inputPrompt = "Enter a number of 1 to 9 (inclusive) conduct a new forecast or type \"location\" to output the current location forecast. If you wish to terminate the program, type \"no\""
     while menuLoop == True: #creates an endless menu until user wants to exit the program
-        if menuCount < 4: # if less than 4 requests have been submitted since last table output, output a shortened version of the text
-            print(inputPrompt) 
-        else: #if longer, add a hint about typing table for a reprinting of the table. The user can reprint the table at any time
-            print(inputPrompt+". Type \"table\" for a reprint of the KP Value & Location table.")
+        print('''\
+                List of Commands:
+1 to 9 (inclusive)  -> Conducts a new forcast for that KP threshold
+location            -> Outputs the current location forecast
+history             -> Provides a table of all locally saved information
+table               -> reprints the KP Value & Location table
+n, no or exit       -> Exits the program''')
         inputSuccess=False #reset inputSucess
         try:
             menuSelection = menuInput() #try to take the user input
@@ -42,19 +50,20 @@ def main():
             if menuSelection in excepttedKPIMenuValues: #if KP value is entered conduct analysis
                 daysAroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates,False, float(latitude), kpValueThreshold=int(menuSelection)) #call analysis function again with not using latitude
                 printAuroraPrediction(daysAroraCouldHappen, dates, city ,location=int(menuSelection)) # Display Aurora prediction
-            elif menuSelection.lower() == "no" or menuSelection.lower() == "n": # if user wants to quit
+            elif menuSelection.lower() == "no" or menuSelection.lower() == "n" or menuSelection.lower() == "exit": # if user wants to quit
                 menuLoop = False # break loop and program ends
             elif menuSelection.lower() == "table": # if user wants table --force lower so if the user capitalises certain characters it shouldnt be an issue
                 printKPIMenu() #print table
-                menuCount = 0 #and reset counter for the table hint, is 0 instead of 1 as seen before due to the menuCount += 1 at the end of this loop.
-            elif menuSelection.lower() == "Location":
-                daysAroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude), kpValueThreshold=int(menuSelection)) #call analysis function again with not using latitude
+            elif menuSelection.lower() == "location":
+                daysAroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude)) #call analysis function again with not using latitude
                 printAuroraPrediction(daysAroraCouldHappen, dates, city) # Display Aurora prediction
+            elif menuSelection.lower() == "history":
+                MainFileHandler.printHistoricTable() #print historic data
             else: #an invalid message was inputted
                 print("Invalid Input") #notify user input was invalid
-            menuCount += 1 #increment menu count for hint
         else:
             print("Seems like there was an error, please try again") #input error, prompt the user to try again
+        print("")
             
         
         

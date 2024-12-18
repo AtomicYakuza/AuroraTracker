@@ -1,5 +1,5 @@
 #Aurora Prediction auroraClass.py
-#--Last Version Changed: v0.3
+#--Last Version Changed: v0.4
 #Created by AtomicYakuza on 10/12/2024
 
 class Aurora:
@@ -9,6 +9,7 @@ class Aurora:
     #global variable declaration
     totalSteps = 3 #total number of steps in the loading process - dont have to edit multiple strings when changes are made
     APIurl = "https://services.swpc.noaa.gov/text/3-day-forecast.txt" #APIurl declared here for quick changing/ checking
+    development = False
 
     def progressBar(self, success, title, barTime):
         lengthOfProgressBar = 20 #how many characters the Progressbar will be
@@ -101,7 +102,10 @@ class Aurora:
         except Exception as e:
             self.progressBar(False, "Analysing data (3/" + str(self.totalSteps) + ")", 0.001) #call the progress bar
             print(f"An error occurred (302): {e}")
-        
+        if self.development == True:
+            print(combinedData)
+            print(arrayDates)
+            print(arrayTimes)
         #this part 2 returns the combined data in a 2dArray like [[x.xx,x.xx,x.xx],[x.xx,x.xx,x.xx]...] with each of the smaller arrays representing a specific time across 3 days.
         return combinedData, arrayDates, arrayTimes #returns an array of the data values, the dates and the times
 
