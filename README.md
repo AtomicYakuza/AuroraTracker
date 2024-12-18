@@ -5,6 +5,14 @@
 Welcome to the Aurora Forecasting Application, a Python program that predicts the visibility of auroras (Northern Lights) in Coventry using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
+### Version 0.3
+🛠️ New Features
+- Added auto-location detection to provide an accurate forecast based on the user's current location (use a VPN to simulate different locations).
+- Added file / location to Error Codes in README.md ([See here](#-error-codes))
+
+🐛 Bug Fixes
+- Fixed multiple occurrences of the misspelling "forcast" to "forecast."
+
 ### Version 0.2
 🛠️ New Features
 - Added location input after the initial Coventry check
@@ -37,6 +45,9 @@ To run this program, you’ll need:
 2.	The main.py script:
     - Initialises the program.
     - Displays results in a user-friendly format.
+3. The Locator class in locatorClass.py:
+    - Uses the 'ipinfo.io' API to determine the user's current location.
+    - Returns latitude, longitude and city where the user is - not exact location but close enough
 
 #### 📂 File Structure
 ```
@@ -46,6 +57,7 @@ To run this program, you’ll need:
 ├── LICENSE                 # License details (MIT)
 ├── 📁 Scripts/
     ├── AuroraClass.py      # Contains the Aurora class for data fetching, cleaning, and analysis
+    ├── locatorClass.py     # Contains the Locator class for finding the users: latitude, longitude & city
     ├── main.py             # Main program file (Run program from here)
 ```
 ## 🚀 How to Run
@@ -62,9 +74,10 @@ cd AuroraTracker
 3.	~~Install Dependencies:~~
 
 ```
-No external dependencies! this program uses only Python's built-in modules:
+No external dependencies! This program uses only Python's built-in modules:
 - 'time': For managing time-related operations
-- 'urllib.request': For fetching data from NOAA
+- 'urllib.request': For fetching data from NOAA and ipinfo
+- 'json': For parsing text to json
 ```
 
 4.	Run the Program:
@@ -83,12 +96,14 @@ python3 scripts/main.py
 - 📊 **Advanced Visualisation**: Advanced data visualisation for better data representation
 
 ## 🚨 Error Codes
-|**Code**|**Description**|**Solutions**|
-|---|---|---|
-|101|Error during fetching of data|Most likely cause of error is change in the data source|
-|201|Unexpected User Input|Follow the program prompts or restart the program|
-|301|Error during the editing of data|Unexpected logic issue|
-|302|Error during the sorting of data|Unexpected logic issue|
+|**Code**|**File / location**|**Description**|**Solutions**|
+|---|---|---|---|
+|101|auroraClass.py|Error during fetching of data (NOAA)|Most likely cause of error is change in the data source|
+|201|main.py|Unexpected User Input|Follow the program prompts or restart the program|
+|301|auroraClass.py|Error during the editing of data|Submit issue|
+|302|auroraClass.py|Error during the sorting of data|Submit issue|
+|401|locatorClass.py|Error during fetching of data (ipinfo)| Submit issue
+|402|locatorClass.py|Error during json parse|Submit issue
 
  Submit and track issues [here](https://github.com/AtomicYakuza/AuroraTracker/issues), or contribute directly by fixing issues and submitting a pull request. See [Contributing](#-contributing) for more info.
 
@@ -98,7 +113,7 @@ This project is licensed under the **MIT** License. See the [LICENSE](/LICENSE) 
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you have suggestions or improvements, feel free to fork the repository and submit a pull request. All code **must include comments** for a pull request to be reviewed and accepted.
+Contributions are welcome! If you have suggestions or improvements, feel free to fork the repository and submit a pull request. All code **must include detailed comments** for a pull request to be reviewed and accepted.
 
 ## 🌟 Acknowledgments
 - NOAA for providing aurora forecast data.

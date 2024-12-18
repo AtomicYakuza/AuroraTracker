@@ -1,5 +1,5 @@
 #Aurora Prediction auroraClass.py
-#--Last Version Changed: v0.2
+#--Last Version Changed: v0.3
 #Created by AtomicYakuza on 10/12/2024
 
 class Aurora:
@@ -105,12 +105,28 @@ class Aurora:
         #this part 2 returns the combined data in a 2dArray like [[x.xx,x.xx,x.xx],[x.xx,x.xx,x.xx]...] with each of the smaller arrays representing a specific time across 3 days.
         return combinedData, arrayDates, arrayTimes #returns an array of the data values, the dates and the times
 
-    def dataAnalysis(self, data, time, date, kpValueThreshold=9): # kpValueThreshold should be 9 for coventry -thats why its the default value
+    def dataAnalysis(self, data, time, date, longAndLat,latitude, kpValueThreshold=9): # kpValueThreshold should be 9 for coventry -thats why its the default value
         #https://www.swpc.noaa.gov/content/tips-viewing-aurora --this is a source of information to know at what strength the northn lights would be visible in coventry
         AuroraGoingToHappen = [False, False, False]
         #loop and find anytime the arora would be present in the uk
+        #KP dictionary/ lookup table for latitude to KP value
+        latitudeList = [[62.7,3],[58.5,5],[54.3, 7], [50.1,9]] #structure [[latitude, KP Value],[latitude, KP Value],...]
+        if longAndLat == True: #if using latitude to find KP value/ threshold
+            valueFound = False
+            for i in range(len(latitudeList)):
+                if latitude >= latitudeList[i][0]:
+                    #kp value found
+                    valueFound = True
+                    kpValueThreshold = latitudeList[i][1] #get variable from the 'KP dictionary'
+        
+            if valueFound == False:
+                #still havent found anything due to latitude being too low
+                kpValueThreshold = 10
+
         for i in range(len(date)):
             for j in range(len(time)):
                 if float(data[j][i]) >= kpValueThreshold: #if the value is greater or equal to the threshold then will be visible
                     AuroraGoingToHappen[i] = True #change the correct day to true
+
+
         return AuroraGoingToHappen #return array of True or Falses
