@@ -4,39 +4,20 @@
 
 class Aurora:
     import urllib.request #import a request module
-    import time #import the time module
 
     #global variable declaration
     totalSteps = 3 #total number of steps in the loading process - dont have to edit multiple strings when changes are made
     APIurl = "https://services.swpc.noaa.gov/text/3-day-forecast.txt" #APIurl declared here for quick changing/ checking
     development = False
 
-    def progressBar(self, success, title, barTime):
-        lengthOfProgressBar = 20 #how many characters the Progressbar will be
-        if success == True: #if success is true display a functioning/ eventually complete progressbar
-            # Simulate progress 
-            print(title) #print title provided to the function to show the user what is being loaded
-            print("[", end="", flush=True) # Print the opening bracket, end removes the auto gnerated new line, flush allows the print statement to be printed immediately 
-            print(" " * lengthOfProgressBar + "]", end="\r", flush=True)  # Print the closing bracket and move the cursor back
-            for i in range(lengthOfProgressBar): 
-                self.time.sleep(barTime) #sleep inbetween each incremental load
-                print(f"[{'/' * (i + 1)}{' ' * ((lengthOfProgressBar-1) - i)}]", end="\r", flush=True)  # Update the progress bar
-            print(f"[{'/' * lengthOfProgressBar}]", flush=True)  # Ensure the progress bar is fully completed
-        else:
-            #if success == False then show an incomplete progress bar
-            print(f"[{' ' * lengthOfProgressBar}]", flush=True)  # Print an empty progress bar in case of an error
 
     def request(self):
         #requesting the data from the source
-        progressBarTitle = "fetching data (1/" + str(self.totalSteps) + ")" # declare the progress bar title
-        progressBarLength = 0.1 #declare the time between each loading, 0.1 * lengthOfProgressBar = 2.0 seconds
         try:
             response = self.urllib.request.urlopen(self.APIurl) #this line requests the data from the NOAA
             data = response.read().decode('utf-8')  # Decode the response to a string
-            self.progressBar(True, progressBarTitle, progressBarLength) #call progress bar function once all steps are done
         except Exception as e:
             #if error does occur
-            self.progressBar(False, progressBarTitle, progressBarLength) #call the progress bar
             print(f"An error occurred (101): {e}") #print the error for debug --most likely an issue with the requesting of data eg: server down
         return data #provide data to the parent function
 
@@ -65,9 +46,7 @@ class Aurora:
                             found = True #after finding the data found = True to start the reading of information
                         elif line.startswith("Rationale:"): #this is for reduency, should never execute as found should == True by the time this function reads the "Rationale:" line
                             complete = True
-            self.progressBar(True, "Compiling data (2/" + str(self.totalSteps) + ")", 0.05) #call progress bar
         except Exception as e:
-            self.progressBar(False, "Compiling data (2/" + str(self.totalSteps) + ")", 0.05) #call the progress bar uncompleted
             print(f"An error occurred (301): {e}")
 
         
@@ -82,6 +61,8 @@ class Aurora:
             arrayTimes = []
             arrayData = []
             for i in range(8): #8 time entries are given
+                if cleanedData[0] == "(":
+                    cleanedData = cleanedData[4:] #fixed bug here if the extra info was provided for the 3rd day 
                 arrayTimes.append(cleanedData[:7]) # get the next five characters and put them into the time list. 
                 cleanedData = cleanedData[7:] #Again, remove the first 7 letters
                 for i in range(3): #for each of the days, data is provided
@@ -98,9 +79,7 @@ class Aurora:
                 for j in range(w): #same here ^
                     combinedData[i][j] = arrayData[count] #put data into this array
                     count += 1 #increment count variable to shift the pointer of the arrayData array
-            self.progressBar(True, "Analysing data (3/" + str(self.totalSteps) + ")", 0.01) #call progress bar
         except Exception as e:
-            self.progressBar(False, "Analysing data (3/" + str(self.totalSteps) + ")", 0.001) #call the progress bar
             print(f"An error occurred (302): {e}")
         if self.development == True:
             print(combinedData)
@@ -110,11 +89,12 @@ class Aurora:
         return combinedData, arrayDates, arrayTimes #returns an array of the data values, the dates and the times
 
     def dataAnalysis(self, data, time, date, longAndLat,latitude, kpValueThreshold=9): # kpValueThreshold should be 9 for coventry -thats why its the default value
-        #https://www.swpc.noaa.gov/content/tips-viewing-aurora --this is a source of information to know at what strength the northn lights would be visible in coventry
+        #https://www.swpc.noaa.gov/content/tips-viewing-aurora --this is a source of information to know at what strength the northn lights would be visible in location
         AuroraGoingToHappen = [False, False, False]
+        AuroraGoingToHappenTime = []
         #loop and find anytime the arora would be present in the uk
-        #KP dictionary/ lookup table for latitude to KP value
-        latitudeList = [[62.7,3],[58.5,5],[54.3, 7], [50.1,9]] #structure [[latitude, KP Value],[latitude, KP Value],...]
+        #KP dictionary/ lookup table for latitude to KP value  
+        latitudeList = [[62.7,3],[58.5,5],[54.3, 7], [50.1,9]]
         if longAndLat == True: #if using latitude to find KP value/ threshold
             valueFound = False
             for i in range(len(latitudeList)):
@@ -127,10 +107,19 @@ class Aurora:
                 #still havent found anything due to latitude being too low
                 kpValueThreshold = 10
 
+
+        AuroraGoingToHappenTime = []
+        AuroraGoingToHappenTimeAll=[]
         for i in range(len(date)):
             for j in range(len(time)):
                 if float(data[j][i]) >= kpValueThreshold: #if the value is greater or equal to the threshold then will be visible
                     AuroraGoingToHappen[i] = True #change the correct day to true
+                    AuroraGoingToHappenTime.append(time[j])
+            if float(data[j][i]) >= kpValueThreshold:
+                AuroraGoingToHappenTimeAll.append(AuroraGoingToHappenTime)
+            else:
+                AuroraGoingToHappenTimeAll.append([])
+            AuroraGoingToHappenTime = []
 
 
-        return AuroraGoingToHappen #return array of True or Falses
+        return AuroraGoingToHappen, AuroraGoingToHappenTimeAll#return array of True or Falses and optional times

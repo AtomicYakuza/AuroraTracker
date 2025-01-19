@@ -158,5 +158,7 @@ class FileHander:
             print(betweenLine)
             print("|" + saveData[i*3] + " |" + saveData[(i*3)+1] + "|   " + saveData[(i*3)+2] +"   |")
         print(betweenLine)
+        print("| Date | Time  | KP Value |")
+        print(betweenLine)
 
 

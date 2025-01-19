@@ -1,2 +1,6 @@
 /Scripts/__pycache__
 /Scripts/testing.py
+Calendar Events/*
+!Calendar Events/example.ics
+map.py
+.DS_Store
