@@ -132,7 +132,7 @@ python3 scripts/main.py
 |502|fileHandlerClass.py|Error during folder creation|Ensure no other programs are interfering in the working directory or files|
 |503|fileHandlerClass.py|Error during loading of data before saving|Ensure no other programs are interfering in the working directory or files|
 |504|fileHandlerClass.py|Error during loading of data before table printing|Ensure no other programs are interfering in the working directory or files|
-|601|calendarClass.py|Error during the creation of calendar ics file|Ensure no other programs are interfering in the working directory or files|
+|601|calendarClass.py|Error during the creation of calendar .ics file|Ensure no other programs are interfering in the working directory or files|
 
  Submit and track issues [here](https://github.com/AtomicYakuza/AuroraTracker/issues), or contribute directly by fixing issues and submitting a pull request. See [Contributing](#-contributing) for more info.
 
