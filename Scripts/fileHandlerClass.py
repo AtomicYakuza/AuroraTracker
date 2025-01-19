@@ -1,5 +1,5 @@
 #Aurora Prediction fileHandlerClass.py
-#--Last Version Changed: v0.4
+#--Last Version Changed: v1.0
 #Created by AtomicYakuza on 18/12/2024
 class FileHander:
     import os

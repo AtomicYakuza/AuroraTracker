@@ -1,5 +1,5 @@
 #Aurora Prediction main.py
-#--Last Version Changed: v0.4
+#--Last Version Changed: v1.0
 #Created by AtomicYakuza on 10/12/2024
 
 #from AuroraClass.py (file) import tthe Aurora Class

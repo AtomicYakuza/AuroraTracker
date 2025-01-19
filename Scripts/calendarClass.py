@@ -1,3 +1,6 @@
+#Aurora Prediction calendarClass.py
+#--Last Version Changed: v1.0
+#Created by AtomicYakuza on 10/01/2025
 class CalendarClass:
     import datetime
     import os
