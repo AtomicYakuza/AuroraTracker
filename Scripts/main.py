@@ -1,5 +1,5 @@
 #Aurora Prediction main.py
-#--Last Version Changed: v1.0
+#--Last Version Changed: v1.1
 #Created by AtomicYakuza on 10/12/2024
 
 #from AuroraClass.py (file) import tthe Aurora Class
@@ -77,6 +77,13 @@ n, no or exit       -> Exits the program''')
                 menuLoop = False # break loop and program ends
             elif menuSelection.lower() == "table": # if user wants table --force lower so if the user capitalises certain characters it shouldnt be an issue
                 printKPIMenu() #print table
+            elif menuSelection.lower() == "developer": #hidden developer mode
+                daysAuroraCouldHappen, TimesAuroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, False, float(latitude), kpValueThreshold=2) #call analysis function again with not using latitude
+                try:
+                    checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen)
+                except Exception as e:
+                    #if error does occur
+                    print(f"An error occurred (601): {e}") 
             elif menuSelection.lower() == base64.b64decode("cmVk").decode("utf-8"):
                 line1, line2, line3 = getPlay()
                 print(line1)
@@ -110,11 +117,14 @@ n, no or exit       -> Exits the program''')
 def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtimes):
     startTimes = [[]]
     endTimes = [[]]
-    breaking = False
+    
     for i in range(len(daysAuroraCouldHappen)):
+        breaking = False
         if daysAuroraCouldHappen[i] == True:
             #aurora happening
-            #startTime = potentialtimes[i][0] #'00-03UT'
+            if i != 0:
+                startTimes.append([])
+                endTimes.append([])
             startTime = potentialtimes[i][0]
             startTimes[i].append(startTime)
             for j in range(len(potentialtimes[i])):
@@ -153,7 +163,7 @@ def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtime
             date = dates[i]
             for x in range(len(startTimes[i])):
                 fileName = MainCalendarClass.writeCalendar("Aurora",startTimes[i][x],endTimes[i][x],city, date)
-            print("Created file: "+fileName)
+                print("Created file: "+fileName)
     if dayCount == 0:
         print("No files were created as no auroras are expected to occur in the next 3 days")
         

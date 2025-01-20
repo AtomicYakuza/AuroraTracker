@@ -3,6 +3,11 @@
 Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) in Coventry using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
+### Version 1.1
+🐛 Bug Fixes
+- Fixed overflow error when saving .ics files
+- Fixed issue with saving files on Windows OS
+
 ### Version 1.0 🎉
 🛠️ New Features
 - Introduced the option to export notifications directly to your calendar as an ICS file (see [example.ics](/Calendar%20Events/example.ics) located in the [/Calendar Events/](/Calendar%20Events/) folder for reference)

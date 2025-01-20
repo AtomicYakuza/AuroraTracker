@@ -1,5 +1,5 @@
 #Aurora Prediction fileHandlerClass.py
-#--Last Version Changed: v1.0
+#--Last Version Changed: v1.1
 #Created by AtomicYakuza on 18/12/2024
 class FileHander:
     import os
@@ -15,7 +15,8 @@ class FileHander:
             else:
                 #try to create a new file
                 try:
-                    open(self.filePath, "w")
+                    with open(self.filePath, "w"):
+                        pass
                 except Exception as e:
                     print(f"An error occurred (501): {e}")
                     return False
@@ -28,7 +29,8 @@ class FileHander:
             except Exception as e:
                 print(f"An error occurred (502): {e}")
             try:
-                open(self.filePath, "w") #assumed as no folder, no file will also be there so just create automatically
+                with open(self.filePath, "w"):  #assumed as no folder, no file will also be there so just create automatically
+                    pass
             except Exception as e:
                 print(f"An error occurred (501): {e}")
             else:
@@ -99,7 +101,7 @@ class FileHander:
                     saveData.append(newData[j][i])
                     
         #save fileå
-        with open(self.filePath, "w") as file:
+        with open(self.filePath, "w", newline="") as file:
             writer = self.csv.writer(file, quoting=self.csv.QUOTE_MINIMAL)
 
             for i in range(0, len(saveData), 3):

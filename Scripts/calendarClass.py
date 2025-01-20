@@ -1,5 +1,5 @@
 #Aurora Prediction calendarClass.py
-#--Last Version Changed: v1.0
+#--Last Version Changed: v1.1
 #Created by AtomicYakuza on 10/01/2025
 class CalendarClass:
     import datetime
@@ -75,9 +75,9 @@ class CalendarClass:
         description = "An Aurora will be visible from: " + finalStartTime + " to " + finalEndTime + " in " + location + "."
         #if month is only 1 number add a zero for readability of the file name
         if month > 9:
-            FileName = "event-" + str(self.datetime.datetime.now().year) + "-" + str(month) + "-" + str(finalDate) + "_" + finalStartTime + ":" + finalEndTime
+            FileName = "event-" + str(self.datetime.datetime.now().year) + "-" + str(month) + "-" + str(finalDate) + "_" + finalStartTime + "_to_" + finalEndTime
         else:
-            FileName = "event-" + str(self.datetime.datetime.now().year) + "-0" + str(month) + "-" + str(finalDate) + "_" + finalStartTime + ":" + finalEndTime
+            FileName = "event-" + str(self.datetime.datetime.now().year) + "-0" + str(month) + "-" + str(finalDate) + "_" + finalStartTime + "_to_" + finalEndTime
         filePath = "Calendar Events/"+FileName+".ics"
         fileFolder = filePath.split('/')[0] #gets the parent folder for the file path
         file = filePath.split('/')[1]
