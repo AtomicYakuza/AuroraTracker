@@ -1,6 +1,6 @@
 # Aurora Forecasting Application (AuroraTracker)
 
-Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) in Coventry using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
+Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
 ### Version 1.1.1
