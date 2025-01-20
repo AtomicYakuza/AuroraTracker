@@ -6,6 +6,7 @@ Welcome to the Aurora Forecasting Application, a Python program that predicts an
 ### Version 1.1.1
 🛠️ New Features
 - Program can now be launched directly from file rather than through command line
+
 🐛 Bug Fixes
 - Fixed overflow error when saving .ics files
 - Fixed issue with saving files on Windows OS
