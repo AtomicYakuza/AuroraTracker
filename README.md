@@ -3,10 +3,14 @@
 Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) in Coventry using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
-### Version 1.1
+### Version 1.1.1
+🛠️ New Features
+- Program can now be launched directly from file rather than through command line
 🐛 Bug Fixes
 - Fixed overflow error when saving .ics files
 - Fixed issue with saving files on Windows OS
+- Fixed Changes to README.md
+- Added changes to the file handling to make it more robust
 
 ### Version 1.0 🎉
 🛠️ New Features
@@ -70,6 +74,7 @@ To run this program, you’ll need:
 3. The Locator class in locatorClass.py:
     - Uses the 'ipinfo.io' API to determine the user's current location.
     - Returns latitude, longitude and city where the user is - not exact location but close enough
+4. CalendarClass
 
 #### 📂 File Structure
 ```
@@ -89,6 +94,9 @@ To run this program, you’ll need:
 ```
 ## 🚀 How to Run
 
+This program can be launched directly by double-clicking the main.py file in a file explorer, provided that Python is installed and associated with .py files on your system.
+
+### From Command Line
 1.	Clone the Repository:
 ```
 git clone https://github.com/AtomicYakuza/AuroraTracker.git

@@ -4,7 +4,7 @@
 class CalendarClass:
     import datetime
     import os
-
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     def checkLocationExists(self, filePath, fileFolder):
         #function checks if the folder and file exists and then creates the file
         if self.os.path.exists(fileFolder):
@@ -95,7 +95,9 @@ DESCRIPTION:{description}
 LOCATION:{location}
 END:VEVENT
 END:VCALENDAR"""
-        #check if file exists
+        fileFolder = self.os.path.join(self.BASE_DIR, fileFolder)
+        filePath = self.os.path.join(self.BASE_DIR, filePath)
+        
         self.checkLocationExists(filePath, fileFolder) #check if file and folder exists
         #write to file
         with open(filePath, "w") as file:

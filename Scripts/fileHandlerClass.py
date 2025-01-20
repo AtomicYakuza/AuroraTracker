@@ -4,8 +4,10 @@
 class FileHander:
     import os
     import csv
-    filePath = "Data/historicData.csv"
-    fileFolder = filePath.split('/')[0] #gets the parent folder for the file path
+    relativeLocation = "Data/historicData.csv"
+    baseFilePath = BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fileFolder = os.path.join(baseFilePath, relativeLocation.split('/')[0]) #gets the parent folder for the file path
+    filePath = os.path.join(baseFilePath, relativeLocation) #gets the lcoation for the file path
     def checkLocationExists(self):
         #function checks if the folder and file exists and then creates the file
         if self.os.path.exists(self.fileFolder):
