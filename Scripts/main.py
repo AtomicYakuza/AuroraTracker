@@ -95,7 +95,7 @@ n, no or exit       -> Exits the program''')
                 printCommands = False
             elif menuSelection.lower() == "tracker":
                 print("Starting endless tracker | To return to the menu, please close the program and launch again")
-                endless()
+                endless(daysAuroraCouldHappen, dates, city, times, trimmedData, latitude)
             elif menuSelection.lower() == "location":
                 daysAuroraCouldHappen, placeholder = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude)) #call analysis function again with not using latitude
                 printAuroraPrediction(daysAuroraCouldHappen, dates, city) # Display Aurora prediction
@@ -121,13 +121,13 @@ n, no or exit       -> Exits the program''')
 
 
 
-def endless():
+def endless(daysAuroraCouldHappen, dates, city, times, trimmedData, latitude):
     while True:
         now = datetime.datetime.now() # get current date
 
         #calculate next 1AM
         next1AM = now.replace(hour=1, minute=0, second=0, microsecond=0) 
-        if now.hour >= 1:
+        if now.hour >= 1: #adds a day for tomorrow's 1AM if running after 1am
             next1AM += datetime.timedelta(days=1)
         #Calculate seconds until next 1AM
         timeToSleep = (next1AM - now).total_seconds()
