@@ -3,6 +3,10 @@
 Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
+### Version 1.2
+🛠️ New Features
+- Introduced an Endless Mode that runs daily, automatically generating calendar events to notify users if an aurora is expected.
+
 ### Version 1.1.1
 🛠️ New Features
 - Program can now be launched directly from file rather than through command line

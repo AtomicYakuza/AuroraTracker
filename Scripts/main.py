@@ -1,5 +1,5 @@
 #Aurora Prediction main.py
-#--Last Version Changed: v1.1
+#--Last Version Changed: v1.2
 #Created by AtomicYakuza on 10/12/2024
 
 #from AuroraClass.py (file) import tthe Aurora Class
@@ -9,6 +9,8 @@ from fileHandlerClass import FileHander
 from calendarClass import CalendarClass
 import os
 import base64
+import time
+import datetime
 MainAurora = Aurora() #instantiate the class as a global variable
 MainLocator = Locator() 
 MainFileHandler = FileHander()
@@ -58,6 +60,7 @@ history             -> Provides a table of all locally saved information
 table               -> reprints the KP Value & Location table
 calendar            -> Creates an .ics file for any calendar allowing for notifcations
 clear               -> Resets the menu
+tracker             -> Checks for new aurora events and creates calendar invites if detected once a day
 n, no or exit       -> Exits the program''')
         else:
             printCommands = True
@@ -90,6 +93,9 @@ n, no or exit       -> Exits the program''')
                 print(line2)
                 print(line3)
                 printCommands = False
+            elif menuSelection.lower() == "tracker":
+                print("Starting endless tracker | To return to the menu, please close the program and launch again")
+                endless()
             elif menuSelection.lower() == "location":
                 daysAuroraCouldHappen, placeholder = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude)) #call analysis function again with not using latitude
                 printAuroraPrediction(daysAuroraCouldHappen, dates, city) # Display Aurora prediction
@@ -112,6 +118,29 @@ n, no or exit       -> Exits the program''')
             print("Seems like there was an error, please try again") #input error, prompt the user to try again
         print("")
             
+
+
+
+def endless():
+    while True:
+        now = datetime.datetime.now() # get current date
+
+        #calculate next 1AM
+        next1AM = now.replace(hour=1, minute=0, second=0, microsecond=0) 
+        if now.hour >= 1:
+            next1AM += datetime.timedelta(days=1)
+        #Calculate seconds until next 1AM
+        timeToSleep = (next1AM - now).total_seconds()
+        #Notify the user
+        print(f"Waiting until 1 AM ({next1AM}) to continue...")
+        time.sleep(timeToSleep) #sleep
+        #once done request and calendar
+        daysAuroraCouldHappen, TimesAuroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude))
+        try:
+            checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen)
+        except Exception as e:
+            #if error does occur
+            print(f"An error occurred (601): {e}") 
         
         
 def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtimes):
