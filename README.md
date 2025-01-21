@@ -3,6 +3,13 @@
 Welcome to the Aurora Forecasting Application, a Python program that predicts and tracks the visibility of auroras (Northern Lights) using NOAA data: [3-day-forecast](https://services.swpc.noaa.gov/text/3-day-forecast.txt).
 ## 📋 Overview
 
+### Version 1.3
+🛠️ New Features
+- Added the Ability for the program to send an email containing the .ics files to the user.
+
+🐛 Bug Fixes
+- Fixed [Folder Structure](#-file-structure) in README.md
+
 ### Version 1.2
 🛠️ New Features
 - Introduced an Endless Mode that runs daily, automatically generating calendar events to notify users if an aurora is expected.
@@ -91,6 +98,9 @@ To run this program, you’ll need:
 │   ├── AuroraClass.py      # Contains the Aurora class for data fetching, cleaning, and analysis
 │   ├── locatorClass.py     # Contains the Locator class for finding the user's: latitude, longitude & city
 │   ├── main.py             # Main program file (Run program from here)
+│   ├── calendarClass.py    # Creates .ics files
+│   ├── emailClass.py       # Sends emails contianing the .ics files
+│   ├── fileHanderClass.py  # Manages the historic data .csv file
 ├── 📁 Data/
 │   ├── historicData.csv    # Contains the stored data requested by the program
 ├── 📁 Calendar Events
@@ -115,12 +125,15 @@ cd AuroraTracker
 
 ```
 No external dependencies! This program uses only Python's built-in modules:
+- 'time':           For delaying the program until next loop
 - 'urllib.request': For fetching data from NOAA and ipinfo
-- 'json': For parsing text to json
-- 'csv': For handling loading and saving
-- 'os': For creating saving file locaitons
-- 'datetime': For generting datetime timestamps
-- 'base64': For encoding and ecoding select data
+- 'json':           For parsing text to json
+- 'csv':            For handling loading and saving
+- 'os':             For creating saving file locaitons
+- 'datetime':       For generting datetime timestamps
+- 'base64':         For encoding and ecoding select data
+- 'smtplib':        For sending Emails
+- 'email':          For sending Emails
 ```
 
 4.	Run the Program:

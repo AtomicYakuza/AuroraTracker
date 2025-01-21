@@ -1,5 +1,5 @@
 #Aurora Prediction main.py
-#--Last Version Changed: v1.2
+#--Last Version Changed: v1.3
 #Created by AtomicYakuza on 10/12/2024
 
 #from AuroraClass.py (file) import tthe Aurora Class
@@ -7,6 +7,7 @@ from auroraClass import Aurora #import custom classes from file (For file readab
 from locatorClass import Locator 
 from fileHandlerClass import FileHander
 from calendarClass import CalendarClass
+from emailClass import EmailClass
 import os
 import base64
 import time
@@ -15,6 +16,7 @@ MainAurora = Aurora() #instantiate the class as a global variable
 MainLocator = Locator() 
 MainFileHandler = FileHander()
 MainCalendarClass = CalendarClass()
+MainEmailClass = EmailClass()
 
 #all of these dont have to global variables, but program is small and they would both be in main() what runs for the entirety of the program anyway
 
@@ -83,7 +85,7 @@ n, no or exit       -> Exits the program''')
             elif menuSelection.lower() == "developer": #hidden developer mode
                 daysAuroraCouldHappen, TimesAuroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, False, float(latitude), kpValueThreshold=2) #call analysis function again with not using latitude
                 try:
-                    checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen)
+                    checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen, False, "test")
                 except Exception as e:
                     #if error does occur
                     print(f"An error occurred (601): {e}") 
@@ -104,7 +106,7 @@ n, no or exit       -> Exits the program''')
             elif menuSelection.lower() == "calendar":
                 daysAuroraCouldHappen, TimesAuroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude))
                 try:
-                    checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen)
+                    checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen, False, "test")
                 except Exception as e:
                     #if error does occur
                     print(f"An error occurred (601): {e}") 
@@ -122,6 +124,16 @@ n, no or exit       -> Exits the program''')
 
 
 def endless(daysAuroraCouldHappen, dates, city, times, trimmedData, latitude):
+    inputSuccess = False
+    while inputSuccess == False:
+        try:
+            print("Please enter a valid email address")
+            emailName = menuInput() #try to take the user input
+        except Exception as e:
+            print(f"An error occurred (201): {e}") #if error occurs print the error
+        else:
+            inputSuccess=True #if completes with no errors, do input Success
+
     while True:
         now = datetime.datetime.now() # get current date
 
@@ -137,13 +149,13 @@ def endless(daysAuroraCouldHappen, dates, city, times, trimmedData, latitude):
         #once done request and calendar
         daysAuroraCouldHappen, TimesAuroraCouldHappen = MainAurora.dataAnalysis(trimmedData, times, dates, True, float(latitude))
         try:
-            checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen)
+            checkCalendar(daysAuroraCouldHappen, dates, city, times, trimmedData, TimesAuroraCouldHappen, True,emailName)
         except Exception as e:
             #if error does occur
             print(f"An error occurred (601): {e}") 
         
         
-def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtimes):
+def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtimes, tracker, recievingEmail):
     startTimes = [[]]
     endTimes = [[]]
     
@@ -182,8 +194,8 @@ def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtime
                                 
                 
                 
-                
-
+            
+    fileNames = []
     #if endTime[]
     dayCount = 0 
     for i in range(len(daysAuroraCouldHappen)):
@@ -193,8 +205,39 @@ def checkCalendar(daysAuroraCouldHappen, dates, city, times, data, potentialtime
             for x in range(len(startTimes[i])):
                 fileName = MainCalendarClass.writeCalendar("Aurora",startTimes[i][x],endTimes[i][x],city, date)
                 print("Created file: "+fileName)
-    if dayCount == 0:
-        print("No files were created as no auroras are expected to occur in the next 3 days")
+                fileNames.append(fileName)
+    menuSwitch = False
+    inputSuccess = False
+    while inputSuccess == False:
+        if tracker == False:
+            try:
+                print("Would you like a copy of the .ics file to be emailed? y or yes to confirm.")
+                menuSelection = menuInput() #try to take the user input
+            except Exception as e:
+                print(f"An error occurred (201): {e}") #if error occurs print the error
+            else:
+                inputSuccess=True #if completes with no errors, do input Success
+        else:
+            menuSelection = "y"
+            menuSwitch = True
+            inputSuccess = True
+
+        if inputSuccess == True:
+            if dayCount == 0:
+                print("No files were created as no auroras are expected to occur in the next 3 days")
+            else:
+                if menuSwitch == True:
+                    MainEmailClass.sendMail(recievingEmail, fileNames)
+                if menuSelection.lower() == "yes" or menuSelection.lower() == "y":
+                    try:
+                        print("Please enter a valid email address")
+                        emailInput = menuInput() #try to take the user input
+                    except Exception as e:
+                        print(f"An error occurred (201): {e}") #if error occurs print the error
+                    # send an email
+                    MainEmailClass.sendMail(emailInput, fileNames)
+                    print("sending mail")
+    
         
 
 
